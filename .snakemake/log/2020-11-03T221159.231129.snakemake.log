@@ -1,0 +1,3 @@
+WorkflowError in line 3 of /Users/faeze/Documents/GitHub/TMB/workflow/Snakefile:
+Config file config.yaml not found.
+  File "/Users/faeze/Documents/GitHub/TMB/workflow/Snakefile", line 3, in <module>

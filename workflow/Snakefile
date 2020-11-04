@@ -1,0 +1,21 @@
+# TMB calculation
+
+configfile: "config.yaml"
+
+# if maf file spacing has issues (ERROR: Your MAF uses CR line breaks, which we can't support. Please use LF or CRLF.)
+# can fix with: perl -lne 's/\r//; print "$_";' mc3.v0.2.8.PUBLIC.maf > mc3.maf
+
+rule maf_to_vcf:
+  input:
+    mut_file="mc3.maf",
+    ref_file="hg19.fa.gz"
+  output: "mut.vcf"
+  message: "Converting maf to vcf with {threads} threads on the following files {input}."
+  shell: "perl maf2vcf.pl --input-maf {mut_file} --output-dir /Users/faeze/Desktop/tmp --ref-fasta {ref_file}"
+
+rule read_input:
+  input:
+    vcf_file=rules.maf_to_vcf.output,
+    CCDS_file="CCDS.bed"
+  output: "mut_CCDS.vcf"
+  shell: "bedtools intersect -a {vcf_file} -b {CCDS_file}"

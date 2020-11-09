@@ -4,7 +4,7 @@
 
 rule all:
     input:
-        rules.find_intersect.output
+        'processed_data/mut_at_CCDS.vcf'
 
 rule fix_maf_space:
     input: 'data/mc3.v0.2.8.PUBLIC.maf'
@@ -14,7 +14,7 @@ rule fix_maf_space:
 
 rule maf_to_vcf:
     input:
-        mut_file=rules.fix_maf_space.output,
+        mut_file='processed_data/mc3.maf',
         ref_file='data/Homo_sapiens.GRCh37.75.dna.primary_assembly.fa'
     output: 'processed_data/mc3.vcf'
     message: 'Converting maf file to vcf format'
@@ -28,7 +28,7 @@ rule ccds_format:
 
 rule find_intersect:
     input:
-        vcf_file=rules.maf_to_vcf.output,
-        CCDS_file=rules.ccds_format.output
+        vcf_file='processed_data/mc3.vcf',
+        CCDS_file='processed_data/CCDS.bed'
     output: 'processed_data/mut_at_CCDS.vcf'
     shell: 'bedtools intersect -wa -a {input.vcf_file} -b {input.CCDS_file} > {output}'

@@ -20,7 +20,9 @@ CCDS file (exonic regions):
 
 After files are downloaded the gzipped files should be unzipped:
 
-> `gunzip Homo_sapiens.GRCh37.75.dna.primary_assembly.fa.gz`\ `gunzip mc3.v0.2.8.PUBLIC.maf.gz`
+> `gunzip Homo_sapiens.GRCh37.75.dna.primary_assembly.fa.gz`
+<br/>
+> `gunzip mc3.v0.2.8.PUBLIC.maf.gz`
 
 References:
 1. Merino DM, McShane LM, Fabrizio D, Funari V, Chen S, White JR, et al. Establishing guidelines to harmonize tumor mutational burden (TMB): in silico assessment of variation in TMB quantification across diagnostic platforms: phase I of the Friends of Cancer Research TMB Harmonization Project. J Immunother Cancer. 2020 Mar 26;8(1): e000147.

@@ -5,7 +5,7 @@ A pipeline to calculate tumour mutation burden based on criteria suggested by th
 The filtering criteria and the thresholds in this pipeline is selected based on the parameters suggested by Merino et al. (1)
 
 
-# Required Files
+## Required Files
 
 To run this pipeline, TCGA mutation file (2), a reference genome file (3) and a CCDS file (release 15)(4) containing information about exonic regions, are required. In addition to these files, a perl script is needed to convert the TCGA MAF file to VCF format that is included in the code. This script is a part of vcf2maf package written by Cyriac Kandoth et al. (5). The files mentioned above can be downloaded using:
 

@@ -4,21 +4,21 @@
 # perl -lne 's/\r//; print "$_";' mc3.v0.2.8.PUBLIC.maf > mc3.maf
 
 rule fix_maf_space:
-    input: '/Users/faeze/Desktop/mc3.v0.2.8.PUBLIC.maf'
+    input: 'data/mc3.v0.2.8.PUBLIC.maf'
     output: 'processed_data/mc3.maf'
     message: 'Changing line breaks of the MAF file'
-    shell: '''perl -lne 's/\r//; print "$_"";'' {input} > {output}'''
+    shell: '''perl -lne 's/\r//; print "$_"";' {input} > {output}'''
 
 rule maf_to_vcf:
     input:
         mut_file=rules.fix_maf_space.output,
-        ref_file='/Users/faeze/Desktop/Homo_sapiens.GRCh37.75.dna.primary_assembly.fa'
+        ref_file='data/Homo_sapiens.GRCh37.75.dna.primary_assembly.fa'
     output: 'processed_data/mc3.vcf'
     message: 'Converting maf file to vcf format'
     shell: 'perl maf2vcf.pl --input-maf {input.mut_file} --output-dir /Users/faeze/Desktop/tmp --ref-fasta {input.ref_file}'
 
 rule ccds_format:
-    input: '/Users/faeze/Desktop/CCDS.20131129.txt'
+    input: 'data/CCDS.20131129.txt'
     output: 'processed_data/CCDS.bed'
     message: 'Making a BED file from exon coordinates'
     shell: 'cut -f1,8,9 {input} > {output}'

@@ -1,0 +1,4 @@
+Building DAG of jobs...
+MissingInputException in line 5 of /Users/faeze/Documents/GitHub/TMB/workflow/Snakefile:
+Missing input files for rule fix_maf_space:
+/Users/faeze/Desktop/mc3.v0.2.8.PUBLIC.maf

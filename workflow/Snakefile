@@ -1,21 +1,31 @@
 # TMB calculation
 
-configfile: "config.yaml"
+# configfile: 'config.yaml'
+# perl -lne 's/\r//; print "$_";' mc3.v0.2.8.PUBLIC.maf > mc3.maf
 
-# if maf file spacing has issues (ERROR: Your MAF uses CR line breaks, which we can't support. Please use LF or CRLF.)
-# can fix with: perl -lne 's/\r//; print "$_";' mc3.v0.2.8.PUBLIC.maf > mc3.maf
+rule fix_maf_space:
+    input: '/Users/faeze/Desktop/mc3.v0.2.8.PUBLIC.maf'
+    output: 'processed_data/mc3.maf'
+    message: 'Changing line breaks of the MAF file'
+    shell: '''perl -lne 's/\r//; print "$_"";'' {input} > {output}'''
 
 rule maf_to_vcf:
-  input:
-    mut_file="mc3.maf",
-    ref_file="hg19.fa.gz"
-  output: "mut.vcf"
-  message: "Converting maf to vcf with {threads} threads on the following files {input}."
-  shell: "perl maf2vcf.pl --input-maf {mut_file} --output-dir /Users/faeze/Desktop/tmp --ref-fasta {ref_file}"
+    input:
+        mut_file=rules.fix_maf_space.output,
+        ref_file='/Users/faeze/Desktop/Homo_sapiens.GRCh37.75.dna.primary_assembly.fa'
+    output: 'processed_data/mc3.vcf'
+    message: 'Converting maf file to vcf format'
+    shell: 'perl maf2vcf.pl --input-maf {input.mut_file} --output-dir /Users/faeze/Desktop/tmp --ref-fasta {input.ref_file}'
+
+rule ccds_format:
+    input: '/Users/faeze/Desktop/CCDS.20131129.txt'
+    output: 'processed_data/CCDS.bed'
+    message: 'Making a BED file from exon coordinates'
+    shell: 'cut -f1,8,9 {input} > {output}'
 
 rule read_input:
-  input:
-    vcf_file=rules.maf_to_vcf.output,
-    CCDS_file="CCDS.bed"
-  output: "mut_CCDS.vcf"
-  shell: "bedtools intersect -a {vcf_file} -b {CCDS_file}"
+    input:
+        vcf_file=rules.maf_to_vcf.output,
+        CCDS_file=rules.ccds_format.output
+    output: 'processed_data/mut_at_CCDS.vcf'
+    shell: 'bedtools intersect -wa -a {input.vcf_file} -b {input.CCDS_file} > {output}'

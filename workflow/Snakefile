@@ -18,7 +18,7 @@ rule maf_to_vcf:
         ref_file='data/Homo_sapiens.GRCh37.75.dna.primary_assembly.fa'
     output: 'processed_data/mc3.vcf'
     message: 'Converting maf file to vcf format'
-    shell: 'perl maf2vcf.pl --input-maf {input.mut_file} --output-dir /Users/faeze/Desktop/tmp --ref-fasta {input.ref_file}'
+    shell: 'perl workflow/maf2vcf.pl --input-maf {input.mut_file} --output-dir /Users/faeze/Desktop/tmp --ref-fasta {input.ref_file}'
 
 rule ccds_format:
     input: 'data/CCDS.20131129.txt'

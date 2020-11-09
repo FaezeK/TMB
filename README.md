@@ -28,7 +28,7 @@ After files are downloaded the gzipped files should be unzipped:
 
 After cloning the Git repo, a directory called "data" should be made inside "TMB" directory and the 3 files mentioned above should be moved into "data" directory.
   
-To run the pipeline on one CPU core, this code can be used:
+To run the pipeline on one CPU core, please go to TMB directory and run this code:
 > `snakemake -j1`
 
 ### References:

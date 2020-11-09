@@ -1,7 +1,10 @@
 # TMB calculation
 
 # configfile: 'config.yaml'
-# perl -lne 's/\r//; print "$_";' mc3.v0.2.8.PUBLIC.maf > mc3.maf
+
+rule all:
+    input:
+        rules.find_intersect.output
 
 rule fix_maf_space:
     input: 'data/mc3.v0.2.8.PUBLIC.maf'
@@ -23,7 +26,7 @@ rule ccds_format:
     message: 'Making a BED file from exon coordinates'
     shell: 'cut -f1,8,9 {input} > {output}'
 
-rule read_input:
+rule find_intersect:
     input:
         vcf_file=rules.maf_to_vcf.output,
         CCDS_file=rules.ccds_format.output

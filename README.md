@@ -24,7 +24,14 @@ After files are downloaded the gzipped files should be unzipped:
   
 > `gunzip mc3.v0.2.8.PUBLIC.maf.gz`
   
-References:
+## Running the pipeline
+
+After cloning the Git repo, a directory called "data" should be made inside "TMB" directory and the 3 files mentioned above should be moved into "data" directory.
+  
+To run the pipeline on one CPU core, this code can be used:
+> `snakemake -j1`
+
+### References:
 1. Merino DM, McShane LM, Fabrizio D, Funari V, Chen S, White JR, et al. Establishing guidelines to harmonize tumor mutational burden (TMB): in silico assessment of variation in TMB quantification across diagnostic platforms: phase I of the Friends of Cancer Research TMB Harmonization Project. J Immunother Cancer. 2020 Mar 26;8(1): e000147.
 2. Ellrott K, Bailey MH, Saksena G, Covington KR, Kandoth C, Stewart C, et al. Scalable Open Science Approach for Mutation Calling of Tumor Exomes Using Multiple Genomic Pipelines. Cell Syst. 2018 Mar 28;6(3):271-281.
 3. Ensembl [internet]. Ensemble Database; 2014 March [cited 2020 Nov 9]. Available from: ftp://ftp.ensembl.org/pub/release-75/fasta/homo_sapiens/dna/Homo_sapiens.GRCh37.75.dna.primary_assembly.fa.gz

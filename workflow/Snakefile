@@ -7,7 +7,7 @@ rule fix_maf_space:
     input: 'data/mc3.v0.2.8.PUBLIC.maf'
     output: 'processed_data/mc3.maf'
     message: 'Changing line breaks of the MAF file'
-    shell: '''perl -lne 's/\r//; print "$_"";' {input} > {output}'''
+    shell: 'perl -lne \'s/\r//; print "$_"";\' {input} > {output}'
 
 rule maf_to_vcf:
     input:

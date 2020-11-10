@@ -1,10 +1,10 @@
 # TMB calculation
 
-# configfile: 'config.yaml'
+configfile: 'config.yaml'
 
 rule all:
     input:
-        'processed_data/mut_at_CCDS.vcf'
+        'final??'
 
 rule fix_maf_space:
     input: 'data/mc3.v0.2.8.PUBLIC.maf'
@@ -12,23 +12,34 @@ rule fix_maf_space:
     message: 'Changing line breaks of the MAF file'
     shell: 'perl -lne \'s/\\r//; print "$_";\' {input} > {output}'
 
-rule maf_to_vcf:
-    input:
-        mut_file='processed_data/mc3.maf',
-        ref_file='data/Homo_sapiens.GRCh37.75.dna.primary_assembly.fa'
-    output: 'processed_data/mc3.vcf'
-    message: 'Converting maf file to vcf format'
-    shell: 'perl workflow/maf2vcf.pl --input-maf {input.mut_file} --output-dir processed_data --ref-fasta {input.ref_file}'
+rule find_maf_coord:
+    input: 'processed_data/mc3.maf'
+    output: 'processed_data/mc3.bed'
+    message: 'Extracting mutations coordinates'
+    shell: 'cut -f5-7 {input} | tail -n +2 | sort -k1,1 -k2,2n > {output}'
+
+rule remove_maf_dupes:
+    input: 'processed_data/mc3.bed'
+    output: 'processed_data/mc3_merged.bed'
+    message: 'Removing duplicates coordinates'
+    shell: 'bedtools merge -i {input} > {output}'
 
 rule ccds_format:
     input: 'data/CCDS.20131129.txt'
     output: 'processed_data/CCDS.bed'
     message: 'Making a BED file from exon coordinates'
-    shell: 'cut -f1,8,9 {input} > {output}'
+    shell: 'cut -f1,8,9 {input} | sort -k1,1 -k2,2n | tail -n +3 > {output}'
 
 rule find_intersect:
     input:
-        vcf_file='processed_data/mc3.vcf',
+        maf_file='processed_data/mc3_merged.bed',
         CCDS_file='processed_data/CCDS.bed'
-    output: 'processed_data/mut_at_CCDS.vcf'
-    shell: 'bedtools intersect -wa -a {input.vcf_file} -b {input.CCDS_file} > {output}'
+    output: 'processed_data/mut_at_CCDS.bed'
+    message: 'Finding the mutation coordinates at exonic regions'
+    shell: 'bedtools intersect -sorted -wa -a {input.maf_file} -b {input.CCDS_file} > {output}'
+
+rule remove_dupes:
+    input: 'processed_data/mut_at_CCDS.bed'
+    output: 'processed_data/mut_no_dup.bed'
+    message: 'Removing duplicate exonic mutations'
+    shell: 'bedtools merge -i {input} > {output}'

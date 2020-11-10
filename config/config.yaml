@@ -1,6 +1,6 @@
-channels:
-  - bioconda
+# channels:
+#  - bioconda
 dependencies:
-  - samtools = 1.11
-  - perl = 5.18.4
-  - bedtools = 2.29.1
+  #- samtools = 1.9
+  - perl = 5.26.2
+  - bedtools = 2.27.1

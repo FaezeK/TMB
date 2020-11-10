@@ -30,7 +30,10 @@ After cloning the Git repo, a directory called "data" should be made inside "TMB
   
 To run the pipeline on one CPU core, please go to TMB directory and run this code:
 > `snakemake -j1`
-
+  
+If you would like to use all available cores, you can run the pipeline in TMB with:
+> `snakemake -j`
+  
 ### References:
 1. Merino DM, McShane LM, Fabrizio D, Funari V, Chen S, White JR, et al. Establishing guidelines to harmonize tumor mutational burden (TMB): in silico assessment of variation in TMB quantification across diagnostic platforms: phase I of the Friends of Cancer Research TMB Harmonization Project. J Immunother Cancer. 2020 Mar 26;8(1): e000147.
 2. Ellrott K, Bailey MH, Saksena G, Covington KR, Kandoth C, Stewart C, et al. Scalable Open Science Approach for Mutation Calling of Tumor Exomes Using Multiple Genomic Pipelines. Cell Syst. 2018 Mar 28;6(3):271-281.

@@ -46,7 +46,7 @@ rule remove_dupes:
 
 rule find_TMB:
     input:
-        maf_file='processed_data/mc3.maf'
+        maf_file='processed_data/mc3.maf',
         exon_coord='processed_data/mut_no_dup.bed'
     output: 'processed_data/tmb.tsv'
     message: 'Finding tumor mutation burden per sample'

@@ -19,9 +19,11 @@ After files are downloaded the gzipped files should be unzipped:
   
 > `gunzip mc3.v0.2.8.PUBLIC.maf.gz`
   
+In addition to these files, the file with TSS (tissue source sites) was downloaded from https://gdc.cancer.gov/resources-tcga-users/tcga-code-tables that is already included here.
+  
 ## Running the pipeline
 
-After cloning the Git repo, a directory called "data" should be made inside "TMB" directory and the 3 files mentioned above should be moved into "data" directory.
+After cloning the Git repo, the 2 files mentioned above should be moved into "data" directory.
   
 To run the pipeline on one CPU core, please go to TMB directory and run this code:
 > `snakemake -j1`

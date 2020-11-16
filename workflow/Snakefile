@@ -4,7 +4,7 @@ configfile: 'config.yaml'
 
 rule all:
     input:
-        'final??'
+        'processed_data/tmb.tsv'
 
 rule fix_maf_space:
     input: 'data/mc3.v0.2.8.PUBLIC.maf'
@@ -32,14 +32,22 @@ rule ccds_format:
 
 rule find_intersect:
     input:
-        maf_file='processed_data/mc3_merged.bed',
+        mc3_file='processed_data/mc3_merged.bed',
         CCDS_file='processed_data/CCDS.bed'
     output: 'processed_data/mut_at_CCDS.bed'
     message: 'Finding the mutation coordinates at exonic regions'
-    shell: 'bedtools intersect -sorted -wa -a {input.maf_file} -b {input.CCDS_file} > {output}'
+    shell: 'bedtools intersect -sorted -wa -a {input.mc3_file} -b {input.CCDS_file} > {output}'
 
 rule remove_dupes:
     input: 'processed_data/mut_at_CCDS.bed'
     output: 'processed_data/mut_no_dup.bed'
     message: 'Removing duplicate exonic mutations'
     shell: 'bedtools merge -i {input} > {output}'
+
+rule find_TMB:
+    input:
+        maf_file='processed_data/mc3.maf'
+        exon_coord='processed_data/mut_no_dup.bed'
+    output: 'processed_data/tmb.tsv'
+    message: 'Finding tumor mutation burden per sample'
+    shell: 'Rscript workflow/findTMB.R {input.maf_file} {input.exon_coord}'

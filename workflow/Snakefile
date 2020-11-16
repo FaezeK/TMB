@@ -1,6 +1,6 @@
 # TMB calculation
 
-configfile: 'config.yaml'
+configfile: 'config/config.yaml'
 
 rule all:
     input:

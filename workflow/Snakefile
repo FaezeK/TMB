@@ -69,8 +69,8 @@ rule make_plots:
     run:
         # read input files
         cwd=os.getcwd()
-        tmb=pd.read_csv(('cwd/'+input.tmb_file), delimiter = '\t')
-        tss=pd.read_csv(('cwd/'+input.tss_file), delimiter = '\t')
+        tmb=pd.read_csv((cwd+'/'+input.tmb_file), delimiter = '\t')
+        tss=pd.read_csv((cwd+'/'+input.tss_file), delimiter = '\t')
 
         # label samples with TCGA category
         tcga_type=[]

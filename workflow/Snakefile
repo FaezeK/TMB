@@ -1,6 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import os
 
 configfile: 'config/config.yaml'
 
@@ -67,8 +68,9 @@ rule make_plots:
     message: 'Making final figures'
     run:
         # read input files
-        tmb=pd.read_csv(input.tmb_file, delimiter = '\t')
-        tss=pd.read_csv(input.tss_file, delimiter = '\t')
+        cwd=os.getcwd()
+        tmb=pd.read_csv(('cwd/'+input.tmb_file), delimiter = '\t')
+        tss=pd.read_csv(('cwd/'+input.tss_file), delimiter = '\t')
 
         # label samples with TCGA category
         tcga_type=[]

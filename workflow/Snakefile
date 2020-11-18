@@ -1,10 +1,12 @@
-# TMB calculation
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 configfile: 'config/config.yaml'
 
 rule all:
     input:
-        'processed_data/tmb.tsv'
+        'results/tmb_all_samples.png'
 
 rule fix_maf_space:
     input: 'data/mc3.v0.2.8.PUBLIC.maf'
@@ -48,6 +50,94 @@ rule find_TMB:
     input:
         maf_file='processed_data/mc3.maf',
         exon_coord='processed_data/mut_no_dup.bed'
-    output: 'processed_data/tmb.tsv'
+    output: 'results/tmb.tsv'
     message: 'Finding tumor mutation burden per sample'
     shell: 'Rscript workflow/findTMB.R {input.maf_file} {input.exon_coord}'
+
+rule make_plots:
+    input:
+        tss_file='data/tissueSourceSite.tsv',
+        tmb_file='results/tmb.tsv'
+    output:
+        all_tmb_fig='results/tmb_all_samples.png'
+        tmb_no_out_fig='results/tmb_without_outliers.png'
+        range_fig='results/range_of_tmb.png'
+        intq_range_fig='results/interquantile_range_of_tmb.png'
+    message: 'Making final figures'
+    run:
+        # read input files
+        tmb=pd.read_csv(input.tmb_file, delimiter = '\t')
+        tss=pd.read_csv(input.tss_file, delimiter = '\t')
+
+        # label samples with TCGA category
+        tcga_type=[]
+
+        for i in tmb.Tumor_Sample_Barcode:
+            st_ind = i.find('-')
+            end_ind = i.find('-',(i.find('-')+1))
+            code = i[st_ind+1 : end_ind]
+            if code=='NA':
+                t_type = 'Not known'
+            else:
+                t_type = tss[tss['TSS Code']==code]['Study Name'].to_string(index=False)
+            tcga_type.append(t_type)
+
+        tmb['tcga_type'] = pd.Series(tcga_type)
+
+        # sort by medians
+        grp_m=tmb.iloc[:,2:4].groupby('tcga_type').median()
+        grp_m=pd.DataFrame(grp_m)
+        grp_m=grp_m.sort_values(by='tmb', ascending=False)
+
+        # boxplot with outliers
+        plt.figure(figsize=(12, 10), facecolor='white')
+        dd=pd.melt(tmb,id_vars=['tcga_type'],value_vars=['tmb'])
+        box_plot=sns.boxplot(x=tmb.tcga_type, y=tmb.tmb, data=dd, order=grp_m.index)
+        box_plot.set_xticklabels(box_plot.get_xticklabels(),rotation=90)
+        plt.title('TMB per TCGA category')
+        plt.suptitle('')
+        plt.tight_layout()
+        plt.savefig(fname=output.all_tmb_fig, dpi=199)
+
+        # boxplot without outliers
+        pl = plt
+        pl.figure(figsize=(12, 10), facecolor='white')
+        dd=pd.melt(tmb,id_vars=['tcga_type'],value_vars=['tmb'])
+        box_plot2=sns.boxplot(x=tmb.tcga_type, y=tmb.tmb, data=dd, sym='', order=grp_m.index)
+        box_plot2.set_xticklabels(box_plot2.get_xticklabels(),rotation=90)
+        pl.title('TMB per TCGA category after removing the outliers')
+        pl.suptitle('')
+        pl.tight_layout()
+        pl.savefig(fname=output.tmb_no_out_fig, dpi=199)
+
+        # calculate range of tmb
+        tmb_max=tmb.iloc[:,2:4].groupby('tcga_type').max()['tmb']
+        tmb_min=tmb.iloc[:,2:4].groupby('tcga_type').min()['tmb']
+        tmb_range=tmb_max-tmb_min
+        tmb_range=tmb_range.sort_values(ascending=False)
+
+        # plot of ranges
+        pl2 = plt
+        pl2.figure(figsize=(12, 10), facecolor='white')
+        pl2.xticks(rotation=90)
+        pl2.plot(tmb_range, marker='v', linestyle='--')
+        pl2.title('Range of TMB per TCGA category')
+        pl2.suptitle('')
+        pl2.tight_layout()
+        pl2.savefig(fname=output.range_fig, dpi=199)
+
+        # calculate interquantile range of tmb
+        tmb_25_q=tmb.iloc[:,2:4].groupby('tcga_type').quantile(q=0.25)['tmb']
+        tmb_75_q=tmb.iloc[:,2:4].groupby('tcga_type').quantile(q=0.75)['tmb']
+        tmb_interq_range=tmb_75_q-tmb_25_q
+        tmb_interq_range=tmb_interq_range.sort_values(ascending=False)
+
+        # plot of interquantile ranges
+        pl3 = plt
+        pl3.figure(figsize=(12, 10), facecolor='white')
+        pl3.xticks(rotation=90)
+        pl3.plot(tmb_interq_range, marker='o', linestyle='--')
+        pl3.title('Interquantile range (25th to 75th) of TMB per TCGA category')
+        pl3.suptitle('')
+        pl3.tight_layout()
+        pl3.savefig(fname=output.intq_range_fig, dpi=199)

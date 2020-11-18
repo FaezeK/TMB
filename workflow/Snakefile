@@ -1,7 +1,3 @@
-import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
-
 configfile: 'config/config.yaml'
 
 rule all:
@@ -53,7 +49,7 @@ rule find_TMB:
         exon_coord='processed_data/mut_no_dup.bed'
     output: 'results/tmb.tsv'
     message: 'Finding tumor mutation burden per sample'
-    shell: 'Rscript workflow/findTMB.R {input.maf_file} {input.exon_coord}'
+    shell: 'Rscript workflow/findTMB.R {input.maf_file} {input.exon_coord} > {output}'
 
 rule make_plots:
     input:

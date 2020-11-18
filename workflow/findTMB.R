@@ -47,7 +47,7 @@ find_TMB <- function(maf_file, exon_mut_coord) {
   maf_snv_per_sample <- sqldf("select Tumor_Sample_Barcode, count(*) cnt from maf_intersect_coord group by Tumor_Sample_Barcode")
   maf_snv_per_sample$tmb <- maf_snv_per_sample$cnt / 33
 
-  write.table(maf_snv_per_sample, file="processed_data/tmb.tsv", quote=FALSE, sep="\t", row.names=FALSE, col.names=TRUE)
+  write.table(maf_snv_per_sample, file="results/tmb.tsv", quote=FALSE, sep="\t", row.names=FALSE, col.names=TRUE)
 }
 
 find_TMB(args[1], args[2])

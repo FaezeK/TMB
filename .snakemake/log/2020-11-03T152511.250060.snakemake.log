@@ -1,2 +1,0 @@
-SyntaxError in line 10 of /Users/faeze/Documents/GitHub/TMB/Snakefile:
-Command must be given as string after the shell keyword. (Snakefile, line 10)

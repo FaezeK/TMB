@@ -60,9 +60,9 @@ rule make_plots:
         tss_file='data/tissueSourceSite.tsv',
         tmb_file='results/tmb.tsv'
     output:
-        all_tmb_fig='results/tmb_all_samples.png'
-        tmb_no_out_fig='results/tmb_without_outliers.png'
-        range_fig='results/range_of_tmb.png'
+        all_tmb_fig='results/tmb_all_samples.png',
+        tmb_no_out_fig='results/tmb_without_outliers.png',
+        range_fig='results/range_of_tmb.png',
         intq_range_fig='results/interquantile_range_of_tmb.png'
     message: 'Making final figures'
     run:

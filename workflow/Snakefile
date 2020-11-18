@@ -63,8 +63,8 @@ rule make_plots:
     message: 'Making final figures'
     run:
         # read input files
-        tmb=pd.read_csv(input.tmb_file, delimiter = '\t')
-        tss=pd.read_csv(input.tss_file, delimiter = '\t')
+        tmb=pandas.read_csv(input.tmb_file, delimiter = '\t')
+        tss=pandas.read_csv(input.tss_file, delimiter = '\t')
 
         # label samples with TCGA category
         tcga_type=[]
@@ -79,28 +79,28 @@ rule make_plots:
                 t_type = tss[tss['TSS Code']==code]['Study Name'].to_string(index=False)
             tcga_type.append(t_type)
 
-        tmb['tcga_type'] = pd.Series(tcga_type)
+        tmb['tcga_type'] = pandas.Series(tcga_type)
 
         # sort by medians
         grp_m=tmb.iloc[:,2:4].groupby('tcga_type').median()
-        grp_m=pd.DataFrame(grp_m)
+        grp_m=pandas.DataFrame(grp_m)
         grp_m=grp_m.sort_values(by='tmb', ascending=False)
 
         # boxplot with outliers
-        plt.figure(figsize=(12, 10), facecolor='white')
-        dd=pd.melt(tmb,id_vars=['tcga_type'],value_vars=['tmb'])
-        box_plot=sns.boxplot(x=tmb.tcga_type, y=tmb.tmb, data=dd, order=grp_m.index)
+        matplotlib.pyplot.figure(figsize=(12, 10), facecolor='white')
+        dd=pandas.melt(tmb,id_vars=['tcga_type'],value_vars=['tmb'])
+        box_plot=seaborn.boxplot(x=tmb.tcga_type, y=tmb.tmb, data=dd, order=grp_m.index)
         box_plot.set_xticklabels(box_plot.get_xticklabels(),rotation=90)
-        plt.title('TMB per TCGA category')
-        plt.suptitle('')
-        plt.tight_layout()
-        plt.savefig(fname=output.all_tmb_fig, dpi=199)
+        matplotlib.pyplot.title('TMB per TCGA category')
+        matplotlib.pyplot.suptitle('')
+        matplotlib.pyplot.tight_layout()
+        matplotlib.pyplot.savefig(fname=output.all_tmb_fig, dpi=199)
 
         # boxplot without outliers
-        pl = plt
+        pl = matplotlib.pyplot
         pl.figure(figsize=(12, 10), facecolor='white')
-        dd=pd.melt(tmb,id_vars=['tcga_type'],value_vars=['tmb'])
-        box_plot2=sns.boxplot(x=tmb.tcga_type, y=tmb.tmb, data=dd, sym='', order=grp_m.index)
+        dd=pandas.melt(tmb,id_vars=['tcga_type'],value_vars=['tmb'])
+        box_plot2=seaborn.boxplot(x=tmb.tcga_type, y=tmb.tmb, data=dd, sym='', order=grp_m.index)
         box_plot2.set_xticklabels(box_plot2.get_xticklabels(),rotation=90)
         pl.title('TMB per TCGA category after removing the outliers')
         pl.suptitle('')
@@ -114,7 +114,7 @@ rule make_plots:
         tmb_range=tmb_range.sort_values(ascending=False)
 
         # plot of ranges
-        pl2 = plt
+        pl2 = matplotlib.pyplot
         pl2.figure(figsize=(12, 10), facecolor='white')
         pl2.xticks(rotation=90)
         pl2.plot(tmb_range, marker='v', linestyle='--')
@@ -130,7 +130,7 @@ rule make_plots:
         tmb_interq_range=tmb_interq_range.sort_values(ascending=False)
 
         # plot of interquantile ranges
-        pl3 = plt
+        pl3 = matplotlib.pyplot
         pl3.figure(figsize=(12, 10), facecolor='white')
         pl3.xticks(rotation=90)
         pl3.plot(tmb_interq_range, marker='o', linestyle='--')

@@ -48,6 +48,25 @@ To run the pipeline on one CPU core, please go to TMB directory and run this cod
 If you would like to use all available cores, you can run the pipeline in TMB with:
 > `snakemake -j`
   
+*To install snakemake*
+If snakemake is not installed, this page can be used as a guideline: https://snakemake.readthedocs.io/en/stable/getting_started/installation.html
+  
+In summary, first python3 version of Miniconda should be installed. Then, snakemake can be installed using following commands:
+> `conda install -c conda-forge mamba`
+  
+> `mamba create -c conda-forge -c bioconda -n snakemake python=3.8.3 snakemake`
+
+Then, the snakemake environment can be activated via:
+> `conda activate snakemake`
+  
+and finally the commands to run the pipeline can be run.
+  
+*Note:*
+In case the yaml file doesn't work as it is expected, the Python modules can be installed inside the snakemake environment using the following commands:
+> `pip3 install matplotlib==3.3.2`
+  
+> `pip3 install seaborn==0.11.0`
+  
 ## Input
 
 The input to this pipeline is the set of somatic mutations found in TCGA samples.

@@ -22,7 +22,6 @@ TMB is variable across and within cancer cohorts.
   
 ## Usage
 ![DAG](/images/dag.png)
-Format: ![Alt Text](url)
   
 ### Required Files
 

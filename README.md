@@ -57,7 +57,8 @@ In summary, first python3 version of Miniconda should be installed. Then, snakem
 
 Then, the snakemake environment can be activated via:
 > `conda activate snakemake`
-  and finally the commands to run the pipeline can be run.
+  
+and finally the commands to run the pipeline can be run.
   
 ## Input
 

@@ -52,11 +52,12 @@ If snakemake is not installed, this page can be used as a guideline: https://sna
   
 In summary, first python3 version of Miniconda should be installed. Then, snakemake can be installed using following commands:
 > `conda install -c conda-forge mamba`
+  
 > `mamba create -c conda-forge -c bioconda -n snakemake python=3.8.3 snakemake`
 
 Then, the snakemake environment can be activated via:
 > `conda activate snakemake`
-and finally the commands to run the pipeline can be run.
+  and finally the commands to run the pipeline can be run.
   
 ## Input
 

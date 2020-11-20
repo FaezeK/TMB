@@ -21,6 +21,8 @@ TMB is variable across and within cancer cohorts.
 4.	Also, the code here can be used to find TMB in other cohorts providing the same cancer categories
   
 ## Usage
+![DAG](/images/dag.png)
+Format: ![Alt Text](url)
   
 ### Required Files
 

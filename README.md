@@ -49,7 +49,8 @@ To run the pipeline on one CPU core, please go to TMB directory and run this cod
 If you would like to use all available cores, you can run the pipeline in TMB with:
 > `snakemake -j`
   
-*To install snakemake*
+*To install snakemake:*
+  
 If snakemake is not installed, this page can be used as a guideline: https://snakemake.readthedocs.io/en/stable/getting_started/installation.html
   
 In summary, first python3 version of Miniconda should be installed. Then, snakemake can be installed using following commands:

@@ -20,8 +20,18 @@ TMB is variable across and within cancer cohorts.
 3.	To provide a reference for targeted panels results
 4.	Also, the code here can be used to find TMB in other cohorts providing the same cancer categories
   
-## Usage
+### Package Dependencies
+
+* Python3 version of Miniconda (3.8.3)
+* Snakemake
+* R = 4.0.2
+* perl = 5.26.2
+* bedtools = 2.27.1
+* Python Modules: matplotlib = 3.3.2, pandas = 1.1.3, seaborn = 0.11.0
+  
 ![DAG](/images/dag.png)
+  
+## Usage
   
 ### Required Files
 
@@ -71,13 +81,14 @@ In case the yaml file doesn't work as it is expected, the Python modules can be 
   
 ## Input
 
-The input to this pipeline is the set of somatic mutations found in TCGA samples (mc3.v0.2.8.PUBLIC.maf) (3). In addition, a file containing exonic regions of the human genome (hg19 construct) is needed to find the mutations that occur at exons (CCDS.20131129.txt) (4). Finally, a file with TCGA categories (5) is included in the package to be able to categorize samples and compare TMB values across different cancer types.
+The input to this pipeline is the set of somatic mutations found in TCGA samples (mc3.v0.2.8.PUBLIC.maf) (3). Every row in this file contains a mutation and it has 114 columns with information about each mutation including the location of the mutation, the name of the gene containing the mutation, and many other pieces of useful information. To learn more about MAF files, this website from NCI Cancer Research can be useful: https://docs.gdc.cancer.gov/Data/File_Formats/MAF_Format/ 
+In addition, a file containing exonic regions of the human genome (hg19 construct) is needed to find the mutations that occur at exons (CCDS.20131129.txt) (4). Every row in this file contains a CCDS or Consensus Coding Sequence and it has 11 columns. The columns in order are genome id, chromosome, gene, gene id, ccds id, ccds status (to what extent the ccds is reviewed), DNA strand, from (the first DNA base that ccds starts from), to (end of ccds or last DNA base), location (the range of ccds), and match type (match status to SWISS PROT DB). Finally, a file with TCGA categories (5) is included in the package to be able to categorize samples and compare TMB values across different cancer types. Every row in this file contains each TCGA cancer category and it has four columns. The columns of this file are tissue source code, source site (where the data came from), study name, and Biospeciman Core Resource.
   
 The TCGA samples are the test group in this analysis. There is no specific control group in this pipeline since the mutations present in mc3 file were extensively verified and the best tumor and normal samples were paired in all cases (3).
   
 ## Output
 
-The output of this pipeline is a file containing TMB values for all TCGA samples as well as four graphs comparing the TMB values in TCGA categories. Examples of the output can be found in the images directory.
+The output of this pipeline, that can be found in the results folder, is a tsv file containing TMB values for all TCGA samples as well as four graphs comparing the TMB values in TCGA categories. Every row in the tsv file contains information about TMB value of each sample and this file has 3 columns including sample id, number of somatic mutations after all filter were applied, and the TMB value. Examples of the graphs can be found in the images directory.
   
 ## References:
 1. Merino DM, McShane LM, Fabrizio D, Funari V, Chen S, White JR, et al. Establishing guidelines to harmonize tumor mutational burden (TMB): in silico assessment of variation in TMB quantification across diagnostic platforms: phase I of the Friends of Cancer Research TMB Harmonization Project. J Immunother Cancer. 2020 Mar 26;8(1): e000147.

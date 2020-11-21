@@ -37,7 +37,7 @@ After files are downloaded the gzipped files should be unzipped:
   
 > `gunzip mc3.v0.2.8.PUBLIC.maf.gz`
   
-In addition to these files, the file with TSS (tissue source sites) was downloaded from https://gdc.cancer.gov/resources-tcga-users/tcga-code-tables that is already included here.
+In addition to these files, the file with TSS (tissue source sites) was downloaded from NCI Cancer Research Data Commons website that is already included here (5).
   
 ### Running the pipeline
 
@@ -70,17 +70,19 @@ In case the yaml file doesn't work as it is expected, the Python modules can be 
   
 ## Input
 
-The input to this pipeline is the set of somatic mutations found in TCGA samples.
+The input to this pipeline is the set of somatic mutations found in TCGA samples (mc3.v0.2.8.PUBLIC.maf) (3). In addition, a file containing exonic regions of the human genome (hg19 construct) is needed to find the mutations that occur at exons (CCDS.20131129.txt) (4). Finally, a file with TCGA categories (5) is included in the package to be able to categorize samples and compare TMB values across different cancer types.
+  
+The TCGA samples are the test group in this analysis. There is no specific control group in this pipeline since the mutations present in mc3 file were extensively verified and the best tumor and normal samples were paired in all cases (3).
   
 ## Output
 
-The output of this pipeline is a file containing TMB values for all TCGA samples as well as four graphs comparing the TMB values in TCGA categories.
+The output of this pipeline is a file containing TMB values for all TCGA samples as well as four graphs comparing the TMB values in TCGA categories. Examples of the output can be found in the images directory.
   
 ## References:
 1. Merino DM, McShane LM, Fabrizio D, Funari V, Chen S, White JR, et al. Establishing guidelines to harmonize tumor mutational burden (TMB): in silico assessment of variation in TMB quantification across diagnostic platforms: phase I of the Friends of Cancer Research TMB Harmonization Project. J Immunother Cancer. 2020 Mar 26;8(1): e000147.
 2. Sharma P, Allison JP. Immune Checkpoint Targeting in Cancer Therapy: Towards Combination Strategies with Curative Potential. Cell. 2015 Apr 9;161(2): 205-214.
 3. Ellrott K, Bailey MH, Saksena G, Covington KR, Kandoth C, Stewart C, et al. Scalable Open Science Approach for Mutation Calling of Tumor Exomes Using Multiple Genomic Pipelines. Cell Syst. 2018 Mar 28;6(3):271-281.
 4. The Concensus CDS of NCBI [internet]. CCDS Database; 2013 Nov [cited 2020 Nov 9]. Available from: https://ftp.ncbi.nlm.nih.gov/pub/CCDS/archive/15/CCDS.20131129.txt
-
+5. TCGA Code Tables [internet]. National Cancer Institute Genomic Data Commons; [cited 2020 Nov 10]. Availbe from: https://gdc.cancer.gov/resources-tcga-users/tcga-code-tables
 
 

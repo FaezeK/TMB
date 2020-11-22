@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import os
@@ -92,10 +93,13 @@ rule make_plots:
         grp_m=pd.DataFrame(grp_m)
         grp_m=grp_m.sort_values(by='tmb', ascending=False)
 
+        # add log10 of tmb values for the below graph
+        tmb['log10tmb'] = np.log10(tmb.tmb)
+
         # boxplot with outliers
         plt.figure(figsize=(12, 10), facecolor='white')
-        dd=pd.melt(tmb,id_vars=['tcga_type'],value_vars=['tmb'])
-        box_plot=sns.boxplot(x=tmb.tcga_type, y=tmb.tmb, data=dd, order=grp_m.index)
+        dd=pd.melt(tmb,id_vars=['tcga_type'],value_vars=['log10tmb'])
+        box_plot=sns.boxplot(x=tmb.tcga_type, y=tmb.log10tmb, data=dd, order=grp_m.index)
         box_plot.set_xticklabels(box_plot.get_xticklabels(),rotation=90)
         plt.title('Boxplot of TMB values per TCGA category (mutations/megabase)')
         plt.suptitle('')

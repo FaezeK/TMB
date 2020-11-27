@@ -91,7 +91,7 @@ The TCGA samples are the test group in this analysis. There is no specific contr
   
 ## Output
 
-The output of this pipeline, that can be found in the results folder, is a tsv file containing TMB values for all TCGA samples as well as four graphs comparing the TMB values in TCGA categories. Every row in the tsv file contains information about TMB value of each sample and this file has 3 columns including sample id, number of somatic mutations after all filter were applied, and the TMB value. Examples of the graphs can be found in the images directory.
+The output of this pipeline can be found in the results folder after it finishes running. The output comprises five files. The first one is a tsv file containing TMB values for all TCGA samples and the other four are different graphs comparing the TMB values in TCGA categories. Every row in the tsv file contains information about the TMB value of each sample and this file has 3 columns including sample id, number of somatic mutations (after all filter were applied), and the TMB value (For example, a row can be like this: TCGA-02-0003-01A-01D-1490-08    9    0.272727272727273). Examples of the graph files can be found in the images directory.
   
 ## References:
 1. Merino DM, McShane LM, Fabrizio D, Funari V, Chen S, White JR, et al. Establishing guidelines to harmonize tumor mutational burden (TMB): in silico assessment of variation in TMB quantification across diagnostic platforms: phase I of the Friends of Cancer Research TMB Harmonization Project. J Immunother Cancer. 2020 Mar 26;8(1): e000147.

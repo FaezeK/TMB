@@ -53,7 +53,7 @@ In addition to these files, the file with TSS (tissue source sites) was download
 
 After cloning the Git repo, the 2 files mentioned above should be moved into "data" directory.
   
-To run the pipeline on one CPU core, please go to TMB directory and run this code:
+To run the pipeline on one CPU core, please go to TMB directory and run this code: (please note that the Snakefile is stored in workflow directory, but the pipeline can be run from TMB directory as snakemake can locate the file)
 > `snakemake -j1`
   
 If you would like to use all available cores, you can run the pipeline in TMB with:

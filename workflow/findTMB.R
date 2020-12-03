@@ -1,3 +1,7 @@
+if(!require("sqldf", character.only = TRUE)){
+  install.packages("sqldf", dependencies = TRUE)
+}
+
 library(sqldf)
 
 args = commandArgs(trailingOnly=TRUE)
